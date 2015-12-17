@@ -1,6 +1,7 @@
 class Plane < ActiveRecord::Base
   include AASM
   INITIAL_STATE = 'ready'
+  has_paper_trail only: [:state], on: [:update]
   after_destroy :start_other
   after_update :publish_status, if: :state_changed?
 
@@ -46,4 +47,8 @@ class Plane < ActiveRecord::Base
     EventJob.set(wait: 10.seconds).perform_later(self, 'fly')
   end
 
+  def states_history
+    pt_history = versions.map{ |v| v.changeset['state'].try(:last) }
+    pt_history.compact.unshift(INITIAL_STATE)
+  end
 end

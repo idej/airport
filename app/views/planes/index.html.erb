@@ -10,6 +10,7 @@
         <th></th>
         <th><%= model_class.human_attribute_name(:state) %></th>
         <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:history) %></th>
         <th><%=t '.actions', default: t("helpers.actions") %></th>
       </tr>
     </thead>
@@ -19,6 +20,7 @@
           <td class='select'><%= check_box_tag 'plane_ids[]', plane.id if plane.ready? %></td>
           <td class='state'><%= plane.state %></td>
           <td><%= plane.name %></td>
+          <td class='history'><%= plane.states_history.join(' - ') %></td>
           <td>
             <%= link_to t('.destroy', default: t("helpers.links.destroy")),
                         plane_path(plane),
