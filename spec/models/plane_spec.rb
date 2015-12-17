@@ -22,4 +22,17 @@ RSpec.describe Plane, type: :model do
     end
   end
 
+  context 'aasm states callbacks' do
+    let(:plane) { Plane.new }
+    it 'should call perform fly after start event' do
+      expect(plane).to receive(:perform_fly)
+      plane.start
+    end
+
+    it 'should start other after fly event' do
+      plane.state = 'takeoff'
+      expect(plane).to receive(:start_other)
+      plane.fly
+    end
+  end
 end

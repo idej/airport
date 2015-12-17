@@ -1,13 +1,9 @@
 class PlanesController < ApplicationController
-  before_action :set_plane, only: [:show, :edit, :update, :destroy]
+  before_action :set_plane, only: [:destroy]
 
   # GET /planes
   def index
     @planes = Plane.all
-  end
-
-  # GET /planes/1
-  def show
   end
 
   # GET /planes/new
@@ -15,27 +11,14 @@ class PlanesController < ApplicationController
     @plane = Plane.new
   end
 
-  # GET /planes/1/edit
-  def edit
-  end
-
   # POST /planes
   def create
     @plane = Plane.new(plane_params)
 
     if @plane.save
-      redirect_to @plane, notice: 'Plane was successfully created.'
+      redirect_to :planes, notice: 'Plane was successfully created.'
     else
       render :new
-    end
-  end
-
-  # PATCH/PUT /planes/1
-  def update
-    if @plane.update(plane_params)
-      redirect_to @plane, notice: 'Plane was successfully updated.'
-    else
-      render :edit
     end
   end
 
@@ -43,6 +26,17 @@ class PlanesController < ApplicationController
   def destroy
     @plane.destroy
     redirect_to planes_url, notice: 'Plane was successfully destroyed.'
+  end
+
+  def departing
+    if ids = params[:plane_ids]
+      Plane.transaction do
+        planes = Plane.find(ids)
+        planes[0].start!
+        planes[1..-1].each(&:wait!)
+      end
+    end
+    render nothing: true
   end
 
   private
@@ -53,6 +47,6 @@ class PlanesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def plane_params
-      params.require(:plane).permit(:state)
+      params.require(:plane).permit(:name)
     end
 end
