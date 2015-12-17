@@ -5,6 +5,9 @@ gem 'rails', '4.2.1'
 # Use mysql as the database for Active Record
 gem "mysql2", "~> 0.3.20"
 
+gem 'puma'
+gem 'foreman'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -24,6 +27,7 @@ gem 'twitter-bootstrap-rails'
 
 gem 'aasm'
 gem 'paper_trail', '~> 4.0.0'
+gem 'actioncable', github: 'rails/actioncable'
 
 gem 'sidekiq'
 

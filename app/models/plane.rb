@@ -30,6 +30,14 @@ class Plane < ActiveRecord::Base
     end
   end
 
+  def publish_status
+    broadcast_params = {
+      plane_id: id,
+      state: state,
+      history: states_history
+    }
+    ActionCable.server.broadcast('statuses', broadcast_params)
+  end
 
   def start_other
     Plane.transaction do
