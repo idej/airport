@@ -15,4 +15,4 @@ Steps to run the cloned application:
   3. Run redis server (usually `redis-server /usr/local/etc/redis.conf`)
   4. Run application with `foreman start`
   
-Foreman run sidekiq, webworker and application servers.
+Foreman run sidekiq, websocket and application servers.
